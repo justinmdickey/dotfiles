@@ -1,0 +1,266 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   Modified By Aditya Shakya.
+;
+;==========================================================
+
+[color]
+
+trans = #00000000
+white = #FFFFFF
+black = #000000
+
+bg = #77000000
+fg = ${xrdb:color7:#222}
+fg-alt = ${xrdb:color1}
+
+acolor = ${xrdb:color1:#222}
+curgent = #e53935
+coccupied = #43a047
+
+
+;==========================================================
+
+[bar/main]
+monitor = ${env:MONITOR:DisplayPort-0}
+width = 100%
+height = 65
+offset-x = 5%
+offset-y = 2%
+bottom = false
+fixed-center = true
+line-size = 3
+enable-ipc = true
+
+background = ${color.bg}
+foreground = ${color.fg}
+
+border-size = 0
+border-color = ${xrdb:color1}
+
+module-margin-left = 2
+module-margin-right = 2
+
+;==========================================================
+
+font-0 = "San Francisco Display:style=semibold:size=22;2"
+font-1 = "Font Awesome 5 Free Solid:size=22;4"
+font-2 = "Font Awesome 5 Brands:size=22;4"
+font-3 = "SF Mono:style=regular:size=16;2"
+
+;==========================================================
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+;tray-position = right
+;tray-padding = 0
+;tray-maxsize = 16
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+;== Module Location ========================================================
+
+modules-left = arch workspaces spotify
+modules-center = date
+modules-right = pkg volume battery wireless-network memory2 powermenu
+ 
+;== Modules ========================================================
+
+
+[module/spotify]
+type = custom/script
+interval = .2
+format-prefix = " "
+format = <label>
+exec = python ~/Documents/Scripts/spotify_status.py -f '{song} - {artist}' -t 36
+format-underline = ${xrdb:color1}
+
+[module/arch]
+type = custom/text
+content =  
+;alt-icon =  
+content-padding = 4
+content-background = ${color.acolor}
+content-foreground = ${color.fg}
+click-left = exec rofi -show run
+click-middle = rfull
+click-right = rmenu_wi_g
+
+[module/workspaces]
+type = internal/i3
+pin-workspaces = true
+enable-click = true
+enable-scroll = true
+format-padding = 0
+content-foreground = ${color.bg}
+content-padding = 6
+
+label-focused-underline = ${color.fg-alt}
+label-focused-foreground = ${color.fg-alt}
+label-focused-padding = 4
+label-unfocused-padding = 4
+
+[module/term]
+type = custom/text
+content = 
+content-foreground = ${xrdb:color1}
+click-left = exec kitty &
+click-middle = urxvt &
+click-right = xfce4-terminal &
+
+[module/files]
+type = custom/text
+content = 
+content-padding = 0
+content-foreground = ${xrdb:color1}
+click-left = exec nemo &
+click-right = ranger &
+
+[module/browser]
+type = custom/text
+content = 
+content-padding = 0
+content-foreground = ${xrdb:color1}
+click-left = firefox &
+click-right = firefox &
+
+[module/settings]
+type = custom/text
+content = 
+content-padding = 0
+content-foreground = ${xrdb:color1}
+click-left = cinnamon-settings &
+click-right = themes &
+
+
+[module/xwindow]
+type = internal/xwindow
+label-font = 4
+
+
+
+;==========================================================
+
+[module/mpd]
+type = internal/mpd
+;format-online = <toggle> <label-song> 
+format-online =  <label-song> 
+
+icon-play = 
+icon-pause = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+;==========================================================
+
+[module/pkg]
+type = custom/script
+;exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
+;label = %{A1:termite -e "aurman -Syyu" & disown:} %{A3:termite -e "aurman -Syyu" & disown:}%output%%{A} %{A}
+tail = true
+
+
+[module/memory2]
+type = internal/memory
+interval = 1
+label = %percentage_used%%
+
+format = Mem <label>
+format-prefix = "  "
+format-prefix-foreground = ${color.fg-alt}
+format-underline = ${color.fg-alt}
+
+[module/battery]
+type = internal/battery
+full-at = 99
+time-format = %H:%M
+battery = BAT0
+adapter = AC
+format-charging = <animation-charging> <label-charging>
+;label-charging = %percentage%% (%time%)
+label-charging = %percentage%%
+format-discharging = <ramp-capacity> <label-discharging>
+;label-discharging = %percentage%% (%time%)
+label-discharging = %percentage%%
+format-full = <label-full>
+
+format-full-prefix = " "
+ramp-capacity-0 =  
+ramp-capacity-1 =  
+ramp-capacity-2 =  
+ramp-capacity-3 =  
+ramp-capacity-4 =  
+
+ramp-capacity-0-foreground = ${color.red}
+ramp-capacity-foreground   = ${color.fg}
+bar-capacity-width = 10
+
+animation-charging-0 = ""
+animation-charging-1 = ""
+animation-charging-2 = ""
+animation-charging-3 = ""
+animation-charging-4 = ""
+
+animation-charging-framerate = 750
+
+[module/volume]
+type = internal/alsa
+;speaker-mixer = Speaker
+;headphone-mixer = Headphone
+;headphone-id = 16
+;mapped = true
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage%%
+format-muted-prefix = " "
+label-muted = MUTE
+
+ramp-volume-0 =  
+ramp-volume-1 =  
+ramp-volume-2 =  
+ramp-volume-3 =  
+ramp-volume-4 =  
+ramp-volume-5 =  
+ramp-volume-6 =  
+
+[module/wireless-network]
+type = internal/network
+interface = wlp4s0
+interval = 3.0
+udspeed-minwidth = 0
+format-connected = <label-connected>
+format-disconnected = <label-disconnected>
+label-connected =  %essid%
+label-disconnected = 
+click-left = network &
+
+[module/date]
+type = internal/date
+interval = 30
+content-foreground = ${color.acolor}
+label =  %time%
+time =  %I:%M %p
+time-alt =  %Y-%m-%d
+
+[module/powermenu]
+type = custom/text
+content =  
+content-padding = 4
+content-background = ${color.acolor}
+content-foreground = ${color.fg}
+click-left = exec ./Documents/Scripts/pmenu_g.sh
+click-right = exec ./Documents/Scripts/pmenu_g.sh
+
+;== EOF ========================================================
+
