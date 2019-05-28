@@ -9,7 +9,7 @@
 ;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 ;
 ;
-;   Modified By Aditya Shakya.
+;   Modified By Aditya Shakya. & also Justin :)
 ;
 ;==========================================================
 
@@ -33,7 +33,7 @@ coccupied = #43a047
 [bar/main]
 monitor = ${env:MONITOR:DisplayPort-0}
 width = 100%
-height = 65
+height = 48
 offset-x = 5%
 offset-y = 2%
 bottom = false
@@ -45,17 +45,19 @@ background = ${color.bg}
 foreground = ${color.fg}
 
 border-size = 0
-border-color = ${xrdb:color1}
+border-color = ${xrdb:color0}
 
 module-margin-left = 2
 module-margin-right = 2
 
 ;==========================================================
 
-font-0 = "San Francisco Display:style=semibold:size=22;2"
-font-1 = "Font Awesome 5 Free Solid:size=22;4"
+font-0 = "San Francisco Display:style=semibold:size=18;2"
+font-1 = "Font Awesome 5 Free Solid:size=20;4"
 font-2 = "Font Awesome 5 Brands:size=22;4"
-font-3 = "SF Mono:style=regular:size=16;2"
+font-3 = "Hasklig:style=regular:size=14;2"
+font-4 = "Weather:size=14;2"
+font-5 = "Material Icons:style=regular:size=14;2"
 
 ;==========================================================
 
@@ -71,12 +73,19 @@ scroll-down = i3wm-wsprev
 
 ;== Module Location ========================================================
 
-modules-left = arch workspaces spotify
-modules-center = date
-modules-right = pkg volume battery wireless-network memory2 powermenu
+modules-left = arch workspaces xwindow
+modules-center = memory2 date
+modules-right = spotify pkg volume wireless-network powermenu
  
 ;== Modules ========================================================
 
+
+[module/weather]
+type = custom/script
+exec = ~/polybar-forecast/target/release/polybar-forecast
+exec-if = ping openweathermap.org -c 1
+interval = 600
+label-font = 0
 
 [module/spotify]
 type = custom/script
@@ -84,7 +93,7 @@ interval = .2
 format-prefix = " "
 format = <label>
 exec = python ~/Documents/Scripts/spotify_status.py -f '{song} - {artist}' -t 36
-format-underline = ${xrdb:color1}
+format-underline = #1DB954
 
 [module/arch]
 type = custom/text
@@ -110,6 +119,7 @@ label-focused-underline = ${color.fg-alt}
 label-focused-foreground = ${color.fg-alt}
 label-focused-padding = 4
 label-unfocused-padding = 4
+
 
 [module/term]
 type = custom/text
@@ -182,20 +192,6 @@ format-prefix = "  "
 format-prefix-foreground = ${color.fg-alt}
 format-underline = ${color.fg-alt}
 
-[module/battery]
-type = internal/battery
-full-at = 99
-time-format = %H:%M
-battery = BAT0
-adapter = AC
-format-charging = <animation-charging> <label-charging>
-;label-charging = %percentage%% (%time%)
-label-charging = %percentage%%
-format-discharging = <ramp-capacity> <label-discharging>
-;label-discharging = %percentage%% (%time%)
-label-discharging = %percentage%%
-format-full = <label-full>
-
 format-full-prefix = " "
 ramp-capacity-0 =  
 ramp-capacity-1 =  
@@ -236,7 +232,7 @@ ramp-volume-6 = 
 
 [module/wireless-network]
 type = internal/network
-interface = wlp4s0
+interface = wlo1
 interval = 3.0
 udspeed-minwidth = 0
 format-connected = <label-connected>
@@ -263,4 +259,3 @@ click-left = exec ./Documents/Scripts/pmenu_g.sh
 click-right = exec ./Documents/Scripts/pmenu_g.sh
 
 ;== EOF ========================================================
-
